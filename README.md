@@ -1,0 +1,25 @@
+# keypirinha-cheatsheet
+
+Search cheatsheets liked keyboard shortcuts from `.conf` files. Supports:
+
+- Load contents from multiple directories and subdirectories
+- Using space between words helps filtering stuffs
+- Ignore custom files and dirs
+- Other features
+
+Authors: GLM-5🧙‍♂️, scillidan🤡.
+
+## Cheatsheet format
+
+The format of the `.conf` files refers to [rofi-shortcuts.conf](https://github.com/Zeioth/rofi-shortcuts/blob/master/rofi-shortcuts.conf). So it can be used in both:
+
+```
+## https://chrisant996.github.io/clink/clink.html#gettingstarted_keybindings
+clink: Help                 | A-h
+clink: Clear the input line | Esc
+...
+```
+
+## Usage
+
+Type `cheat` → Tab → `<query1> <query2> ...`
