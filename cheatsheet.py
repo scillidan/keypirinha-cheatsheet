@@ -1,4 +1,5 @@
 import keypirinha as kp
+import keypirinha_util as kpu
 import os
 import fnmatch
 import ctypes
@@ -72,7 +73,11 @@ class Cheatsheet(kp.Plugin):
         return all(w in text for w in words)
 
     def on_execute(self, item, action=None):
-        pass
+        if item.category() == self.ITEM_CAT_LINE:
+            target = item.target()
+            if target.startswith("line:"):
+                text = target[5:]
+                kpu.set_clipboard(text)
 
     def on_events(self, flags):
         if flags & kp.Events.PACKCONFIG:
