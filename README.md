@@ -5,6 +5,7 @@ Search cheatsheets liked keyboard shortcuts from `.conf` files. Supports:
 - Load contents from multiple directories and subdirectories
 - Using space between words helps filtering stuffs
 - Ignore custom files and dirs
+- Two search modes: keyword mode and direct mode
 - Other features
 
 Authors: GLM-5🧙‍♂️, scillidan🤡.
@@ -22,4 +23,12 @@ clink: Clear the input line | Esc
 
 ## Usage
 
+### Keyword Mode (default: `keyword_mode = true`)
+
 Type `cheat` → Tab → `<query1> <query2> ...`
+
+### Direct Mode (`keyword_mode = false`)
+
+Type directly: `<query1> <query2> ...`
+
+Items will be shown alongside other catalog items. Results are sorted by cache order (no custom weighting available in Keypirinha).

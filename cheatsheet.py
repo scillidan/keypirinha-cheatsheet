@@ -12,6 +12,7 @@ class Cheatsheet(kp.Plugin):
         super().__init__()
         self._cache = []
         self._keyword = "cheat"
+        self._keyword_mode = True
         self._comment_prefix = "##"
         self._max_desc_len = 50
         self._max_desc_percent = 0
@@ -24,19 +25,35 @@ class Cheatsheet(kp.Plugin):
         self._build_cache()
 
     def on_catalog(self):
-        catalog = [
-            self.create_item(
-                category=kp.ItemCategory.KEYWORD,
-                label=self._keyword,
-                short_desc="Search all cheatsheets",
-                target=self._keyword,
-                args_hint=kp.ItemArgsHint.ACCEPTED,
-                hit_hint=kp.ItemHitHint.IGNORE,
-            )
-        ]
+        if self._keyword_mode:
+            catalog = [
+                self.create_item(
+                    category=kp.ItemCategory.KEYWORD,
+                    label=self._keyword,
+                    short_desc="Search all cheatsheets",
+                    target=self._keyword,
+                    args_hint=kp.ItemArgsHint.ACCEPTED,
+                    hit_hint=kp.ItemHitHint.IGNORE,
+                )
+            ]
+        else:
+            catalog = [
+                self.create_item(
+                    category=self.ITEM_CAT_LINE,
+                    label=f"{self._truncate(desc)} - {sc}",
+                    short_desc="",
+                    target=f"line:{sc}",
+                    args_hint=kp.ItemArgsHint.FORBIDDEN,
+                    hit_hint=kp.ItemHitHint.IGNORE,
+                )
+                for desc, sc in self._cache
+            ]
         self.set_catalog(catalog)
 
     def on_suggest(self, user_input, items_chain):
+        if not self._keyword_mode:
+            return
+
         if not items_chain or items_chain[0].target() != self._keyword:
             return
 
@@ -87,6 +104,7 @@ class Cheatsheet(kp.Plugin):
     def _read_config(self):
         settings = self.load_settings()
         self._keyword = settings.get("keyword", "main", "cheat")
+        self._keyword_mode = settings.get_bool("keyword_mode", "main", True)
         self._comment_prefix = settings.get("comment_prefix", "main", "##")
         max_desc_setting = settings.get("max_desc_len", "main", "50")
         if max_desc_setting.endswith("%"):
