@@ -82,7 +82,7 @@ class Cheatsheet(kp.Plugin):
             )
             for desc, sc in matched
         ]
-        self.set_suggestions(suggestions, kp.Match.DEFAULT, kp.Sort.NONE)
+        self.set_suggestions(suggestions, kp.Match.ANY, kp.Sort.NONE)
 
     def _truncate(self, text):
         if len(text) <= self._max_desc_len:
